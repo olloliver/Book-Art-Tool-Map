@@ -48,7 +48,7 @@
   var controlLayers = L.control.layers( null, null, {
     position: "topright",
     collapsed: false
-  }).addTo(map);
+  });
 
   // display Carto basemap tiles with light features and labels
   var light = L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`,{
