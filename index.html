@@ -1,7 +1,9 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>leaflet-map-csv</title>
+	<title>Mash up </title>
+	<meta name="generator" content="BBEdit 16.0">
+	<title>leaflet-map-csv</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta charset="utf-8">
 
@@ -18,11 +20,11 @@
     body { margin:0; padding:0; }
     #map { position: absolute; top:0; bottom:0; right:0; left:0; }
   </style>
-
+  
 </head>
 <body>
 
-  <!-- Insert HTML division tag to layout the map -->
+ <!-- Insert HTML division tag to layout the map -->
   <div id="map"></div>
    <a href="https://www.maptiler.com" style="position:absolute;left:10px;bottom:10px;z-index:999;"><img src="https://api.maptiler.com/resources/logo.svg" alt="MapTiler logo"></a>
     </div>
@@ -32,8 +34,43 @@
   <!-- Insert Javascript (.js) code to create the map -->
  <script>
     const key = 'jTu22TNbOlti0GE9wXov';
+    const map = L.map('map').setView([41.66618581122182, -91.53664572366085], 14); //starting position
+      L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`,{
+  tileSize: 512,
+  zoomOffset: -1,
+  minZoom: 3,
+  maxZoom: 7, 
+  attribution: "\u003ca href=\"https://www.maptiler.com/copyright/\" target=\"_blank\"\u003e\u0026copy; MapTiler\u003c/a\u003e \u003ca href=\"https://www.openstreetmap.org/copyright\" target=\"_blank\"\u003e\u0026copy; OpenStreetMap contributors\u003c/a\u003e",
+  crossOrigin: true
+}).addTo(map);
 
-  // Set up initial map center and zoom level
+ // Read markers data from data.csv
+  $.get('./data.csv', function(csvString) {
+
+    // Use PapaParse to convert string to array of objects
+    var data = Papa.parse(csvString, {header: true, dynamicTyping: true}).data;
+
+    // For each row in data, create a marker and add it to the map
+    // For each row, columns `Latitude`, `Longitude`, and `Title` are required
+    for (var i in data) {
+      var row = data[i];
+
+      var marker = L.marker([row.Latitude, row.Longitude], {
+        opacity: 1
+      }).bindPopup(row.Title);
+      
+      marker.addTo(map);
+    }
+
+  });
+
+  map.attributionControl.setPrefix(
+    'View <a href="https://github.com/HandsOnDataViz/leaflet-map-csv" target="_blank">code on GitHub</a>'
+  );
+
+</script>
+</body>
+</html>
      const map = L.map('map').setView([41.66618581122182, -91.53664572366085], 14); //starting position
   L.tileLayer(`https://api.maptiler.com/maps/streets-v4/{z}/{x}/{y}.png?key=${key}`,{
   tileSize: 512,
