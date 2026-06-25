@@ -1,2 +1,2 @@
-Group,Latitude,Longitude,Title,
-school, 41.66618581122182, -91.53664572366085, University of Iowa Center for the Book,
+Group,Title,Image,Description,Address,Latitude,Longitude,Found Address,Match Quality,Source
+school, University of Iowa Center for the Book, 41.66618581122182, -91.53664572366085,
